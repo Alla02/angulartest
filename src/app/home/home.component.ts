@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from "../data.service";
 import {GlobalsService} from "../globals.service";
+import { Inject, Injectable } from '@angular/core';
+import { LOCAL_STORAGE, StorageService, StorageTranscoders } from 'ngx-webstorage-service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,49 +13,35 @@ import {GlobalsService} from "../globals.service";
 export class HomeComponent implements OnInit {
 
   titlepage = 'Все';
-  todoArray=[]
-  addTodo(value){
-    this.todoArray.push(value);
-    console.log(this.todoArray);  }
-  deleteItem(todo){
-    for(let i=0 ;i<= this.todoArray.length ;i++)
-    {
-      if(todo== this.todoArray[i])
-      {
-        this.todoArray.splice(i,1)
-      }
-    }
-  }
-
-
-
-  constructor( private data: DataService, private globals: GlobalsService ) {
+  constructor( private data: DataService, private globals: GlobalsService, @Inject(LOCAL_STORAGE) private storage: StorageService ) {
+    this.storage = storage.withDefaultTranscoder(StorageTranscoders.JSON);
   }
 
   ngOnInit() {
   }
   getAll(){
     this.data.getEmojis().subscribe(data =>{
+      this.storage.remove("storedAll");
+      this.storage.remove("storedFav");
+      this.storage.remove("storedDel");
       this.globals.emojisAll = data;
-      /*      for(let key in data) {
-              let child = data[key];
-              console.log(key);
-              console.log(child);
-            }
-            //console.log(data);*/
-
-      console.log(this.globals.emojisAll);
+      this.storage.set("storedAll", this.globals.emojisAll);
+      this.globals.emojisFav = {};
+      this.storage.set("storedFav", this.globals.emojisFav);
+      this.globals.emojisDel = {};
+      this.storage.set("storedDel", this.globals.emojisDel);
     });
   }
 
   addFav(key, val){
     this.globals.emojisFav[key] = val;
+    this.storage.set("storedFav", this.globals.emojisFav);
     console.log(this.globals.emojisFav);  }
   delEmoji(key, val){
     delete this.globals.emojisAll[key];
     this.globals.emojisDel[key] = val;
-    //console.log(this.globals.emojisFav);
-    console.log(this.globals.emojisDel);
+    this.storage.set("storedAll", this.globals.emojisAll);
+    this.storage.set("storedDel", this.globals.emojisDel);
   }
 
 }

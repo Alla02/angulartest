@@ -9,6 +9,7 @@ import { DelComponent } from './del/del.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { GlobalsService } from './globals.service';
 import { HomeComponent } from './home/home.component';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    StorageServiceModule
   ],
   providers: [GlobalsService],
   bootstrap: [AppComponent]

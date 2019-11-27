@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalsService} from "../globals.service";
+import { Inject, Injectable } from '@angular/core';
+import { LOCAL_STORAGE, StorageService, StorageTranscoders } from 'ngx-webstorage-service';
 
 @Component({
   selector: 'app-del',
@@ -9,30 +11,16 @@ import {GlobalsService} from "../globals.service";
 export class DelComponent implements OnInit {
 
   titlepage = 'Удаленные';
-  todoArray=[]
-  addTodo(value){
-    this.todoArray.push(value);
-    console.log(this.todoArray);  }
-  deleteItem(todo){
-    for(let i=0 ;i<= this.todoArray.length ;i++)
-    {
-      if(todo== this.todoArray[i])
-      {
-        this.todoArray.splice(i,1)
-      }
-    }
-  }
-
-
-
-  constructor( private globals: GlobalsService ) {
+  constructor( private globals: GlobalsService, @Inject(LOCAL_STORAGE) private storage: StorageService ) {
   }
 
   ngOnInit() {
   }
   recover(key, val){
     this.globals.emojisAll[key] = val;
+    this.storage.set("storedAll", this.globals.emojisAll);
     delete this.globals.emojisDel[key];
+    this.storage.set("storedDel", this.globals.emojisDel);
   }
 
 }

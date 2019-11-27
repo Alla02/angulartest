@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {GlobalsService} from './../globals.service'
+import { LOCAL_STORAGE, StorageService, StorageTranscoders } from 'ngx-webstorage-service';
 
 @Component({
   selector: 'app-fav',
@@ -9,23 +10,7 @@ import {GlobalsService} from './../globals.service'
 export class FavComponent implements OnInit {
 
   titlepage = 'Любимые';
-  todoArray=[]
-  addTodo(value){
-    this.todoArray.push(value);
-    console.log(this.todoArray);  }
-  deleteItem(todo){
-    for(let i=0 ;i<= this.todoArray.length ;i++)
-    {
-      if(todo== this.todoArray[i])
-      {
-        this.todoArray.splice(i,1)
-      }
-    }
-  }
-
-
-
-  constructor( private globals: GlobalsService ) {
+  constructor( private globals: GlobalsService, @Inject(LOCAL_STORAGE) private storage: StorageService ) {
   }
 
   ngOnInit() {
@@ -33,6 +18,7 @@ export class FavComponent implements OnInit {
 
   delFav(key, val){
     delete this.globals.emojisFav[key];
+    this.storage.set("storedFav", this.globals.emojisFav);
   }
 
 }

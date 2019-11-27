@@ -2,6 +2,10 @@
   background-color: #2574A9;
 }
 
+.favorite {
+  background-color: #EFFFF6;
+}
+
 .sidebar-container {
   position: fixed;
   width: 220px;
