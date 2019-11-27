@@ -1,0 +1,31 @@
+<div class="container">
+  <form>
+    <div class="form-group">
+      <h1 class="text text-primary">{{titlepage}}</h1>
+      <div class="input-group-prepend">
+        <input type="text" #todo class="form-control" placeholder="Add Todo" name="todo" ngModel>
+        <span class="input-group-text" (click)="addTodo(todo.value)">Поиск</span>
+      </div>
+    </div>
+  </form>
+  <span class="input-group-text" (click)="getAll()">Обновить список смайликов</span>
+  <div class="data">
+    <ul class="list-instyled">
+      <li *ngFor="let todo of todoArray">{{todo}} <i (click)="deleteItem(todo)" class="material-icons">delete</i></li>
+    </ul>
+  </div>
+
+  <div class="container-fluid">
+    <div class="table">
+      <tr><td>Имя</td><td>Ссылка</td> <td>Превью</td><td>Действия</td></tr>
+      <div *ngFor="let emoji of globals.emojisAll | keyvalue">
+        <tr>
+          <td>{{ emoji.key }}</td>
+          <td><a [target]="_blank" [href]="emoji.value">{{emoji.value}}</a></td>
+          <td><img [src]="emoji.value" width="25" height="25"></td>
+          <td><span class="input-group-text" (click)="addFav(emoji.key,emoji.value)">*</span></td>
+          <td><span class="input-group-text" (click)="delEmoji(emoji.key,emoji.value)">[x]</span></td></tr>
+      </div>
+    </div>
+  </div>
+</div>
