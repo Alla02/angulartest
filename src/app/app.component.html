@@ -1,18 +1,18 @@
-<div class="sidebar-container">
-  <ul class="sidebar-navigation">
-    <li class="header">Меню</li>
+<div class="sidebar">
+  <ul class="sidebar__navigation">
+    <li class="sidebar__header">Меню</li>
     <li>
-      <a routerLink="" routerLinkActive="active-menu" [routerLinkActiveOptions]="{exact:true}">
+      <a routerLink="" routerLinkActive="sidebar_active" [routerLinkActiveOptions]="{exact:true}">
         Все
       </a>
     </li>
     <li>
-      <a routerLink="/fav" routerLinkActive="active-menu" [routerLinkActiveOptions]="{exact:true}">
+      <a routerLink="/fav" routerLinkActive="sidebar_active" [routerLinkActiveOptions]="{exact:true}">
         Любимые
       </a>
     </li>
     <li>
-      <a routerLink="/del" routerLinkActive="active-menu" [routerLinkActiveOptions]="{exact:true}">
+      <a routerLink="/del" routerLinkActive="sidebar_active" [routerLinkActiveOptions]="{exact:true}">
         Удаленные
       </a>
     </li>
@@ -20,7 +20,6 @@
 </div>
 
 <div class="content-container">
-
   <div class="container-fluid">
     <router-outlet></router-outlet>
   </div>

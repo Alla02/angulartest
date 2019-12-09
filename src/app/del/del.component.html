@@ -1,26 +1,23 @@
 <div class="container">
-  <form>
-    <div class="form-group">
-      <h1 class="text text-primary">{{titlepage}}</h1>
-      <div class="input-group-prepend">
-        <input type="text" #todo class="form-control" placeholder="Add Todo" name="todo" ngModel>
-        <span class="input-group-text">Поиск</span>
-      </div>
+  <div class="form-group">
+    <h1 class="text text-primary">{{titlepage}}</h1>
+    <div class="input-group-prepend">
+      <input type="text" class="form-control" [formControl]="search" placeholder="Поиск">
     </div>
-  </form>
+  </div>
+
   <div class="container-fluid">
-    <div class="table">
-      <thead><tr><td>Имя</td><td>Ссылка</td> <td>Превью</td><td>Действия</td></tr></thead>
-      <div *ngFor="let emoji of globals.emojisDel | keyvalue">
-        <tbody>
-        <tr>
+    <table class="table">
+      <thead><tr><th scope="col">Имя</th><th scope="col">Ссылка</th> <th scope="col">Превью</th><th scope="col">Действия</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let emoji of filteredResult | keyvalue">
           <td>{{ emoji.key }}</td>
           <td><a [target]="_blank" [href]="emoji.value">{{emoji.value}}</a></td>
-          <td><img [src]="emoji.value" width="25" height="25"></td>
+          <td class="table__img"><img [src]="emoji.value" width="25" height="25" (mouseover)="showFullImage($event, emoji)" (mouseout)="hideFullImage($event, emoji)">
+            <span [class.table__img_selected-tooltip]="emoji.key === selected" [class.table__img_tooltip]="emoji.key != notSelected"><img [src]="emoji.value"></span></td>
           <td><span class="input-group-text" (click)="recover(emoji.key,emoji.value)">Recover</span></td>
         </tr>
-        </tbody>
-      </div>
-    </div>
+      </tbody>
+    </table>
   </div>
 </div>

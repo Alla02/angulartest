@@ -10,6 +10,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { GlobalsService } from './globals.service';
 import { HomeComponent } from './home/home.component';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    StorageServiceModule
+    StorageServiceModule,
+    ReactiveFormsModule
   ],
   providers: [GlobalsService],
   bootstrap: [AppComponent]

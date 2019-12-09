@@ -1,12 +1,27 @@
-.active-menu {
-  background-color: #2574A9;
+.table__img {
+  position: relative;
 }
 
-.favorite {
+.table__img_selected-tooltip {
+  bottom: 50px;
+  right: 20px;
+  display: block;
+  position: absolute;
+}
+
+.table__img_tooltip {
+  display: none;
+}
+
+.tr_favorite {
   background-color: #EFFFF6;
 }
 
-.sidebar-container {
+.input-group-text {
+  cursor: pointer;
+}
+
+.sidebar {
   position: fixed;
   width: 220px;
   height: 100%;
@@ -17,24 +32,14 @@
   color: #fff;
 }
 
-.content-container {
-  padding-top: 20px;
-}
-
-.sidebar-logo {
-  padding: 10px 15px 10px 30px;
-  font-size: 20px;
-  background-color: #2574A9;
-}
-
-.sidebar-navigation {
+.sidebar__navigation {
   padding: 0;
   margin: 0;
   list-style-type: none;
   position: relative;
 }
 
-.sidebar-navigation li {
+.sidebar__navigation li {
   background-color: transparent;
   position: relative;
   display: inline-block;
@@ -42,20 +47,20 @@
   line-height: 20px;
 }
 
-.sidebar-navigation li a {
+.sidebar__navigation li a {
   padding: 10px 15px 10px 30px;
   display: block;
   color: #fff;
 }
 
-.sidebar-navigation li a:active,
-.sidebar-navigation li a:hover,
-.sidebar-navigation li a:focus {
+.sidebar__navigation li a:active,
+.sidebar__navigation li a:hover,
+.sidebar__navigation li a:focus {
   text-decoration: none;
   outline: none;
 }
 
-.sidebar-navigation li::before {
+.sidebar__navigation li::before {
   background-color: #2574A9;
   position: absolute;
   content: '';
@@ -68,21 +73,27 @@
   z-index: -1;
 }
 
-.sidebar-navigation li:hover::before {
+.sidebar__navigation li:hover::before {
   width: 100%;
 }
 
-.sidebar-navigation .header {
+.sidebar__navigation .sidebar__header {
   font-size: 12px;
   text-transform: uppercase;
   background-color: #151515;
   padding: 10px 15px 10px 30px;
 }
 
-.sidebar-navigation .header::before {
+.sidebar__navigation .sidebar__header::before {
   background-color: transparent;
+}
+
+.sidebar_active {
+  background-color: #2574A9;
 }
 
 .content-container {
   padding-left: 220px;
+  padding-top: 20px;
 }
+
