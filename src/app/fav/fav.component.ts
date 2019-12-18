@@ -13,42 +13,34 @@ import {combineLatest, Observable, of} from 'rxjs';
 export class FavComponent implements OnInit {
 
   titlepage = 'Любимые';
-  search : FormControl;
-  filteredResult : any;
 
   constructor( private globals: GlobalsService, @Inject(LOCAL_STORAGE) private storage: StorageService ) {
   }
+  search : FormControl;
+  filteredResult : any;
+
+
   ngOnInit() {
-    this.search = new FormControl(); //поиск по смайликам
+    /**
+     * Поиск.
+     *
+     */
+    this.search = new FormControl();
     this.filteredResult = this.globals.emojisFav;
     this.search.valueChanges.subscribe(val => {
         this.filteredResult = this.globals.emojisFav;
-        if (val==='') this.filteredResult = this.globals.emojisFav; //если пустой запрос
-        else {
-          this.filteredResult = Object.keys(this.filteredResult)
-            .filter(key => key.includes(val))
-            .reduce((obj, key) => {
-              console.log(key);
-              obj[key] = this.globals.emojisFav[key];
-              return obj;
-            }, {});
-        }
+        this.filteredResult = this.globals.formFunction(this.globals.emojisFav,val,this.filteredResult);
       }
     );
   }
-  public selected; public notSelected;
 
-  public showFullImage(event: any, item: any) {//показать полноразмерное изображение
-    this.selected = item.key;
-    this.notSelected = item.key;
-  }
-
-  public hideFullImage(event: any, item: any) {//скрыть полноразмерное изображение
-    this.selected = "";
-    this.notSelected = "";
-  }
-
-  delFav(key, val){//удалить из списка любимых
+  /**
+   * Удалить из списка любимых.
+   *
+   * @param key - ключ смайлика, который нужно удалить
+   *
+   */
+  delFav(key){
     delete this.globals.emojisFav[key];
     this.storage.set("storedFav", this.globals.emojisFav);
   }

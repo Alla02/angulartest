@@ -19,30 +19,34 @@ export class HomeComponent implements OnInit {
   filteredResult : any;
 
   ngOnInit() {
-    this.search = new FormControl(); //поиск по смайликам
+    /**
+     * Поиск.
+     *
+     */
+    this.search = new FormControl();
     this.filteredResult = this.globals.emojisAll;
     this.search.valueChanges.subscribe(val => {
-        this.filteredResult = this.globals.emojisAll;
-        if (val==='') this.filteredResult = this.globals.emojisAll; //если пустой запрос
-        else {
-          this.filteredResult = Object.keys(this.filteredResult)
-            .filter(key => key.includes(val))
-            .reduce((obj, key) => {
-              console.log(key);
-              obj[key] = this.globals.emojisAll[key];
-              return obj;
-            }, {});
-        }
+      this.filteredResult = this.globals.emojisAll;
+        this.filteredResult = this.globals.formFunction(this.globals.emojisAll,val,this.filteredResult);
       }
     );
   }
-  getAll(){ //функция для первой загрузки или обновления списка смайликов
+
+  /**
+   * Функция для первой загрузки или обновления списка смайликов.
+   *
+   */
+  getAll(){
     this.data.getEmojis().subscribe(data =>{
       this.storage.remove("storedAll");
       this.storage.remove("storedFav");
       this.storage.remove("storedDel");
+      console.log("getall");
+      console.log(data);
+
       this.globals.emojisAll = data;
       this.storage.set("storedAll", this.globals.emojisAll);
+      this.storage.set("storedAll2", Object.keys(this.globals.emojisAll));
       this.globals.emojisFav = {};
       this.storage.set("storedFav", this.globals.emojisFav);
       this.globals.emojisDel = {};
@@ -50,23 +54,25 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public selected; public notSelected;
-
-  public showFullImage(event: any, item: any) { //показать полноразмерное изображение
-    this.selected = item.key;
-    this.notSelected = item.key;
-  }
-
-  public hideFullImage(event: any, item: any) {//скрыть полноразмерное изображение
-    this.selected = "";
-    this.notSelected = "";
-  }
-
-  addFav(key, val){ //добавление в список любимых
+  /**
+   * Добавить в список любимых.
+   *
+   * @param key - ключ смайлика
+   * @param val - значение смайлика
+   *
+   */
+  addFav(key, val){
     this.globals.emojisFav[key] = val;
     this.storage.set("storedFav", this.globals.emojisFav);
     console.log(this.globals.emojisFav);  }
-  delEmoji(key, val){ //удаление из общего списка и добавление в список удаленных
+  /**
+   * Удалить смайлик.
+   *
+   * @param key - ключ смайлика
+   * @param val - значение смайлика
+   *
+   */
+  delEmoji(key, val){
     delete this.globals.emojisAll[key];
     this.globals.emojisDel[key] = val;
     this.storage.set("storedAll", this.globals.emojisAll);

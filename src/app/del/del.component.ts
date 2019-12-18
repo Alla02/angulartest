@@ -12,43 +12,33 @@ import {FormControl} from "@angular/forms";
 export class DelComponent implements OnInit {
 
   titlepage = 'Удаленные';
-  search : FormControl;
-  filteredResult : any;
   constructor( private globals: GlobalsService, @Inject(LOCAL_STORAGE) private storage: StorageService ) {
   }
 
+  search : FormControl;
+  filteredResult : any;
   ngOnInit() {
-    this.search = new FormControl(); //поиск по смайликам
+    /**
+     * Поиск.
+     *
+     */
+    this.search = new FormControl();
     this.filteredResult = this.globals.emojisDel;
     this.search.valueChanges.subscribe(val => {
         this.filteredResult = this.globals.emojisDel;
-        if (val==='') this.filteredResult = this.globals.emojisDel; //если пустой запрос
-        else {
-          this.filteredResult = Object.keys(this.filteredResult)
-            .filter(key => key.includes(val))
-            .reduce((obj, key) => {
-              console.log(key);
-              obj[key] = this.globals.emojisDel[key];
-              return obj;
-            }, {});
-        }
+        this.filteredResult = this.globals.formFunction(this.globals.emojisDel,val,this.filteredResult);
       }
     );
   }
 
-  public selected; public notSelected;
-
-  public showFullImage(event: any, item: any) {//показать полноразмерное изображение
-    this.selected = item.key;
-    this.notSelected = item.key;
-  }
-
-  public hideFullImage(event: any, item: any) {//скрыть полноразмерное изображение
-    this.selected = "";
-    this.notSelected = "";
-  }
-
-  recover(key, val){//востановить смайлик в список общих
+  /**
+   * Востановить смайлик в список общих.
+   *
+   * @param key - ключ смайлика
+   * @param val - значение смайлика
+   *
+   */
+  recover(key, val){
     this.globals.emojisAll[key] = val;
     this.storage.set("storedAll", this.globals.emojisAll);
     delete this.globals.emojisDel[key];
